@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@{ 
+    if (Request.IsAuthenticated)
+    {
+        var currentUserid = User.Identity.GetUserId();
+        var manager = new UserManager<Proyectopeli2.Models.ApplicationUser>
+(new UserStore<Proyectopeli2.Models.ApplicationUser>
+(new Proyectopeli2.Models.ApplicationDbContext()));
+        var currentUser = manager.FindById(currentUserid);
+        var Rolid = currentUser.RolID;
+        ViewBag.Rol = Rolid;
+        var Nombre = currentUser.Nombre;
+        ViewBag.Nombre = Nombre;
+        var Apellido = currentUser.Apellido;
+        ViewBag.Ap = Apellido;
+        var user = ViewBag.Nombre + " " + ViewBag.Ap;
+        ViewBag.us = user;
+        var Imus = currentUser.Imaus;
+        ViewBag.im = Imus;
+    }
+}
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                </ul>
+            }
+        }
+        else
+        {
+            <ul class="nav navbar-nav navbar-right">
+                <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            </ul>
+        }

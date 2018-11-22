@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Proyectopeli2.Models.Pelicula>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@foreach (var item in Model)
+{
+<div class="photo-index-card">
+    <h3>"@item.Title"</h3>
+
+    @if (item.Poster != null)
+    {
+        <div class="photo-display">
+            <img class="img-rounded" width="200" src=" @Html.DisplayFor(model => item.Poster2)" />
+        </div>
+    }
+    <div class="photo-metadata">
+        <div>
+            <span class="display-label">
+                Creado por:
+            </span>
+            <span class="display-field">
+                @Html.DisplayFor(model => item.Director)
+            </span>
+        </div>
+
+        <div>
+            <span class="display-label">
+                Fecha de estreno:
+            </span>
+            <span class="display-field">
+
+                @Html.DisplayFor(model => item.Fecha_estreno)
+            </span>
+        </div>
+    </div>
+
+    @Html.ActionLink("Details", "Details", new { id = item.PeliID })
+</div>
+}

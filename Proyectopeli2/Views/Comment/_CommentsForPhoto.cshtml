@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Proyectopeli2.Models.Comentario>
+
+@{
+    AjaxOptions ajaxOptions = new AjaxOptions { UpdateTargetId = "comments-tool" };
+}
+
+<h3>Comments</h3>
+
+@using (Ajax.BeginForm("_CommentsForPhoto", new { PeliID = ViewBag.PeliID }, ajaxOptions))
+{
+
+<div id="comments-tool">
+    <div id="all-comments">
+        @foreach (var item in Model)
+        {
+        <div class="photo-comment">
+            <div class="col-md-2">
+                <img class="img-responsive img-rounded" width="100" src="@Html.DisplayFor(modelItem => item.Imaus)" />
+            </div>
+            <div style="height:auto;">
+                <div class="photo-comment-from">
+                    From:
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </div>
+                <div class="photo-comment-subject">
+                    @Html.DisplayNameFor(model => model.Asunto):
+                    @Html.DisplayFor(modelItem => item.Asunto)
+                </div>
+                <div class="photo-comment-body">
+                    <p>@Html.DisplayFor(modelItem => item.Cuerpo)</p>
+                </div>
+            </div>
+            @if (item.UserName == ViewBag.us)
+            {
+                @Html.ActionLink("Delete This Comment", "Delete", new { id = item.ComentarioID })
+            }
+        </div>
+
+            }
+        </div>
+
+    <div id="addcomment" class="add-comment-box">
+        @if (Request.IsAuthenticated)
+        {            
+            @Html.Action("_Create", "Comment", new { PeliID = ViewBag.PeliID })
+        }
+        else
+        {
+            @Html.ActionLink("To comment you must log in", "Login", "Account")
+        }
+    </div>
+</div>
+}

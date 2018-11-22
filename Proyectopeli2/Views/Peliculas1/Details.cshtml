@@ -1,0 +1,78 @@
+﻿@model Proyectopeli2.Models.Pelicula
+
+@{
+    ViewBag.Title = "Details of " + Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detailsof @Html.DisplayFor(model => model.Title)</h2>
+
+<div class="row" id="d1">
+    <center><h2>"@Html.DisplayFor(model => model.Title)"</h2></center>
+    <div class="col-md-4">
+        <h2><center>@Html.DisplayNameFor(model => model.Poster)</center></h2>
+        <hr />
+        @{
+            var im = @Html.DisplayFor(model => model.Poster) + "";
+            ViewBag.im = im + "";
+        }
+        @if (im.Equals(""))
+        {
+            <center><img class="img-responsive img-rounded" id="im" width="300" src="~/Imagenes/imagen-no-disponible.png" /></center>
+            <center><h2>Imagen no encontrada</h2></center>
+        }
+        <center><img class="img-responsive img-rounded" id="im" width="300" src="@Html.DisplayFor(model => model.Poster)" /></center>
+        <center><button type="button" class="btn btn-success" onclick="cambio();">otra portada -></button></center>
+    </div>
+    <div class="col-md-8">
+        <center>
+            <iframe src="@Html.DisplayFor(model => model.Video)" allowfullscreen width="700" height="400"></iframe>
+            </center>
+                <p>
+                    <h2>@Html.DisplayNameFor(model => model.Sinopsis):</h2>
+                    <hr />
+                    @Html.DisplayFor(model => model.Sinopsis)
+                </p>
+                <p>
+                    <h2> @Html.DisplayNameFor(model => model.Director):</h2>
+                    <hr />
+                    @Html.DisplayFor(model => model.Director)
+                </p>
+                <p>
+                    <h2>@Html.DisplayNameFor(model => model.Fecha_estreno): </h2>
+                    @Html.DisplayFor(model => model.Fecha_estreno)
+                    <h2>@Html.DisplayNameFor(model => model.Duracion): </h2>
+                    @Html.DisplayFor(model => model.Duracion)
+                </p>
+                <p>
+                    <h2> @Html.DisplayNameFor(model => model.Generos):</h2>
+                    <hr />
+                    @Html.DisplayFor(model => model.Generos)
+                </p>
+                <p>
+                    <h2> @Html.DisplayNameFor(model => model.Idiomas):</h2>
+                    <hr />
+                    @Html.DisplayFor(model => model.Idiomas)
+                </p>
+</div>
+</div>
+
+<script type="text/javascript">
+    var fotoact = "@Html.DisplayFor(model => model.Poster)";
+    function cambio() {
+        var el = document.getElementById("im");
+        if (fotoact == "@Html.DisplayFor(model => model.Poster)") {
+            el.src = "@Html.DisplayFor(model => model.Poster2)";
+            fotoact = "@Html.DisplayFor(model => model.Poster2)";
+        }
+        else {
+            el.src = "@Html.DisplayFor(model => model.Poster)";
+             fotoact = "@Html.DisplayFor(model => model.Poster)";
+        }
+        
+    }
+</script>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PeliID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p> @Html.Action("_CommentsForPhoto", "Comment", new { PeliID = Model.PeliID })
